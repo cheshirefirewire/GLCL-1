@@ -1,13 +1,15 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito");
+@import url("https://fonts.googleapis.com/css?family=Nunito");
 * {
   font-family: 'Nunito', sans-serif;
 }
+
 .button {
-  background-color: unset;
+  background-color: blue;
   height: 40px;
   width: 80px;
   display: inline-block;
-  margin: 10px 10px;
+  margin: 10px;
 }
 
 .button p {
@@ -19,9 +21,7 @@
   height: 37.5px;
   width: 37.5px;
   border-radius: 50%;
-  border: 3px solid #F4CC61;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  border: 4px solid gold;
 }
 
 .button.round.disabled {
@@ -31,14 +31,6 @@
 
 .button.round.disabled p {
   opacity: 50%;
-}
-
-.button.round.filled {
-  background-color: #F4CC61;
-}
-
-.button.round.filled p {
-  color: #4B4F53;
 }
 
 .button.round.filled {
@@ -200,6 +192,10 @@
 .button.square i.goldcheck {
   color: gold;
 }
+* {
+  font-family: 'Nunito', sans-serif;
+}
+
 li {
   text-decoration: none;
 }

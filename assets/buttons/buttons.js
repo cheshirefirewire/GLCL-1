@@ -1,11 +1,11 @@
-var fn = function (){
-	var minus = document.getElementsByClassName('minus');
+let fn = ()=>{
+  let minus = document.getElementsByClassName('minus');
 
-for(var i = 0; i<minus.length; i++){
-	var e = document.createElement('p');
-	e.innerHTML = '-';
-	minus[i].appendChild(e);
-	}
+  for (let i = 0; i < minus.length; i++) {
+    let e = document.createElement('p');
+    e.innerHTML = '-';
+    minus[i].appendChild(e);
+  }
 
 };
 
