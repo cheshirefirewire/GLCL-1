@@ -29,7 +29,7 @@ var scssFiles = 'assets/**/*.scss',
 
 gulp.task('sass', function(){
   return gulp.src(scssFiles)
-    .pipe(sass()) // Using gulp-sass
+    .pipe(sass().on('error', sass.logError))
     .pipe(concatCss('styles.css'))
     .pipe(gulp.dest(cssDest))
     .pipe(rename('styles.min.css'))
