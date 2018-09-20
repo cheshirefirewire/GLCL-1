@@ -1,5 +1,104 @@
 'use strict';
 
+var calendar = function calendar() {
+
+  var firstDay = function firstDay(year, month) {
+    return new Date(year, month - 1, 1).getDay();
+  };
+
+  var lastDay = function lastDay(year, month) {
+    return new Date(year, month, 0).getDate();
+  };
+
+  // Return today's date and time
+  var currentTime = new Date();
+  // returns the month (from 0 to 11)
+  var currentMonth = currentTime.getMonth() + 1;
+  // returns the day of the month (from 1 to 31)
+  var currentDay = currentTime.getDate();
+  // returns the year (four digits)
+  var currentYear = currentTime.getFullYear();
+
+  var daysOfTheWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+
+  var calendarHead = document.getElementById('calendar-head');
+  var populateCalendarHead = function populateCalendarHead() {
+    for (var i = 0; i < daysOfTheWeek.length; i++) {
+      var day = document.createElement('p');
+      day.innerHTML = daysOfTheWeek[i];
+      calendarHead.appendChild(day);
+    }
+  };
+  populateCalendarHead();
+
+  var lastMonth = function lastMonth(year, month, dayOfWeek) {
+    var previousMonth = month - 1;
+    var daysInPreviousMonth = function daysInPreviousMonth(y, p) {
+      var previousMonthArr = [];
+      var ld = lastDay(y, p);
+      console.log('ld', ld);
+      var i = 0;
+      while (i < dayOfWeek) {
+        previousMonthArr.push(ld);
+        ld--;
+        i++;
+      }
+      return previousMonthArr;
+    };
+    if (previousMonth < 1) {
+      previousMonth = 12;
+      // console.log('daysInPreviousMonth(previousMonth, year);', daysInPreviousMonth(previousMonth, year-1));
+      return daysInPreviousMonth(year - 1, previousMonth);
+    } else {
+      // console.log('daysInPreviousMonth(previousMonth, year);', daysInPreviousMonth(previousMonth, year));
+      return daysInPreviousMonth(year, previousMonth);
+    }
+  };
+
+  var calendarBody = document.getElementById('calendar-body');
+  var populateCalendarBody = function populateCalendarBody() {
+    var currentDaysInMonth = lastDay(currentYear, currentMonth);
+    var firstDayOfMonth = firstDay(currentYear, currentMonth);
+    var lastMonthArr = lastMonth(currentYear, currentMonth, firstDayOfMonth);
+    var daysInRow = 7;
+    var totalRows = 6;
+    var currentRows = 0;
+    var currentDayOfMonthIndex = 1; //current day of current month
+    var currentCalendarDayIndex = 0; //current index of days on calendar
+    var lmaIndex = firstDayOfMonth - 1;
+
+    while (currentRows < totalRows) {
+      var calendarRow = document.createElement('div');
+      for (var i = 0; i < daysInRow; i++) {
+        var day = document.createElement('p');
+        //This if condition says "add a certain number of days to the beginning of the month from the previous"
+        if (currentCalendarDayIndex < firstDayOfMonth) {
+          day.innerHTML = lastMonthArr[lmaIndex];
+          day.classList.add('grayedOut');
+          lmaIndex--;
+        }
+        //This if condition says "start adding days to the calendar, if the first weekday of the month has been reached"
+        if (currentCalendarDayIndex >= firstDayOfMonth && currentDayOfMonthIndex <= currentDaysInMonth) {
+          day.innerHTML = currentDayOfMonthIndex;
+          currentDayOfMonthIndex++;
+        }
+        // //This if condition says "add a certain number to the end of the month from the next"
+        // if(currentCalendarDayIndex<firstDayOfMonth){
+        //   day.innerHTML = 0;
+        // }
+        currentCalendarDayIndex++;
+        calendarRow.appendChild(day);
+      }
+      calendarBody.appendChild(calendarRow).className = "calendar-row";
+      currentRows++;
+    }
+  };
+  populateCalendarBody();
+};
+
+document.addEventListener('DOMContentLoaded', calendar, false);
+'use strict';
+
 var fn = function fn() {
 	// adding p tag for minus
 	var minus = document.getElementsByClassName('minus');
@@ -22,58 +121,10 @@ var fn = function fn() {
 document.addEventListener('DOMContentLoaded', fn, false);
 'use strict';
 
-var calendar = function calendar() {
-
-  var firstDay = function firstDay(year, month) {
-    return new Date(year, month - 1, 1).getDay();
-  };
-
-  var lastDay = function lastDay(year, month) {
-    return new Date(year, month, 0).getDate();
-  };
-
-  var daysOfTheWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-
-  var calendarHead = document.getElementById('calendar-head');
-  var populateCalendarHead = function populateCalendarHead() {
-    for (var i = 0; i < daysOfTheWeek.length; i++) {
-      var day = document.createElement('p');
-      day.innerHTML = daysOfTheWeek[i];
-      calendarHead.appendChild(day);
-    }
-  };
-  populateCalendarHead();
-
-  var calendarBody = document.getElementById('calendar-body');
-  var populateCalendarBody = function populateCalendarBody() {
-    var daysInRow = 7;
-    var totalRows = 6;
-    // var totalDays = daysInRow * totalRows;
-    var currentRows = 0;
-    var currentDaysInMonth = lastDay(2018, 9);
-    var firstDayOfMonth = firstDay(2018, 9);
-    var currentDayOfMonthIndex = 1;
-    var currentCalendarDayIndex = 0;
-
-    while (currentRows < totalRows) {
-      var calendarRow = document.createElement('div');
-      for (var i = 0; i < daysInRow; i++) {
-        var day = document.createElement('p');
-        if (currentCalendarDayIndex >= firstDayOfMonth && currentDayOfMonthIndex <= currentDaysInMonth) {
-          day.innerHTML = currentDayOfMonthIndex;
-          currentDayOfMonthIndex++;
-        }
-        currentCalendarDayIndex++;
-        calendarRow.appendChild(day);
-      }
-      calendarBody.appendChild(calendarRow).className = "calendar-row";
-      currentRows++;
-    }
-  };
-  populateCalendarBody();
+var list = [];
+var myFunkyFunk = function myFunkyFunk() {
+  console.log('the funk');
 };
-
-document.addEventListener('DOMContentLoaded', calendar, false);
 'use strict';
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -123,9 +174,3 @@ var titleCarouselWrapper = function titleCarouselWrapper() {
 };
 
 document.addEventListener('DOMContentLoaded', titleCarouselWrapper, false);
-'use strict';
-
-var list = [];
-var myFunkyFunk = function myFunkyFunk() {
-  console.log('the funk');
-};
