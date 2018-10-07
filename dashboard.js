@@ -1,7 +1,17 @@
 let dashboard = () => {
+  const calendar = document.getElementById('calendar');
   const dashBody = document.getElementById('body');
+
+  const monthChange = (direction) => {
+    return new CustomEvent('monthChange', {
+      bubbles: false,
+      detail: { 'direction': direction }
+    });
+  }
+
+
   dashBody.addEventListener('arrowClick', function(){
-    console.log('arrow clicked!');
+    calendar.dispatchEvent(monthChange('left'));
   }, true);
 };
 

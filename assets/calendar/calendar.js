@@ -58,10 +58,10 @@ let calendar = () => {
   // let titleIndex = Number(titleCarousel.getAttribute('title-starting-index'));
 
   const calendarBody = document.getElementById('calendar-body');
-  const populateCalendarBody = () => {
-    const currentDaysInMonth = lastDay(2018, 9);
-    const firstDayOfMonth = firstDay(2018, 9);
-    const lastMonthArr = lastMonth(currentYear, currentMonth, firstDayOfMonth);
+  const populateCalendarBody = (selectedYear, selectedMonth) => {
+    const currentDaysInMonth = lastDay(selectedYear, selectedMonth);
+    const firstDayOfMonth = firstDay(selectedYear, selectedMonth);
+    const lastMonthArr = lastMonth(selectedYear, selectedMonth, firstDayOfMonth);
     const daysInRow = 7;
     const totalRows = 6;
     let currentRows = 0;
@@ -97,11 +97,13 @@ let calendar = () => {
       currentRows++;
     }
   }
-  populateCalendarBody();
+  populateCalendarBody(currentYear, currentMonth);
+
+
   const calendar = document.getElementById('calendar');
-  // console.log(calendar);
-  calendar.addEventListener('arrowClick', function(){
-    console.log('arrow clicked calllllll!');
+  calendar.addEventListener('monthChange', function(event){
+    console.log('arrow clicked calllllll!', event);
+    
   }, true);
 };
 
