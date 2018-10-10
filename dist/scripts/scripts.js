@@ -128,11 +128,17 @@ var calendar = function calendar() {
     var changeDirection = event.detail.changeDirection;
     if (changeDirection === 'left') {
       currentMonthIndex = currentMonthIndex - 1;
-      // console.log('currentMonthIndex', currentMonthIndex);
+      if (currentMonthIndex === 0) {
+        currentMonthIndex = 12;
+        currentYearIndex = currentYearIndex - 1;
+      }
       populateCalendarBody(currentYearIndex, currentMonthIndex);
     } else if (changeDirection === 'right') {
       currentMonthIndex = currentMonthIndex + 1;
-      // console.log('currentMonthIndex', currentMonthIndex);
+      if (currentMonthIndex === 13) {
+        currentMonthIndex = 1;
+        currentYearIndex = currentYearIndex + 1;
+      }
       populateCalendarBody(currentYearIndex, currentMonthIndex);
     }
     //if(changedirection === 'left'){
@@ -154,6 +160,7 @@ var myFunkyFunk = function myFunkyFunk() {
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var titleCarouselWrapper = function titleCarouselWrapper() {
+
   var titleCarousel = document.getElementById('title-carousel');
 
   var elementBuilder = function elementBuilder(elementType, elementId, appendTo, classes) {
@@ -167,43 +174,61 @@ var titleCarouselWrapper = function titleCarouselWrapper() {
     appendTo.appendChild(el);
   };
 
-  elementBuilder('p', 'left-arrow', titleCarousel, ['arrow', 'fas', 'fa-chevron-left']);
-  elementBuilder('p', 'title', titleCarousel);
-  elementBuilder('p', 'right-arrow', titleCarousel, ['arrow', 'fas', 'fa-chevron-right']);
-
-  var title = document.getElementById('title');
-  var titleSetter = function titleSetter(newTitle) {
-    title.innerHTML = newTitle;
+  var titleSetter = function titleSetter(el, newTitle) {
+    el.innerHTML = newTitle;
   };
 
-  var titleArr = JSON.parse(titleCarousel.getAttribute('title-arr'));
-  var leftArrow = document.getElementById('left-arrow');
-  var rightArrow = document.getElementById('right-arrow');
-  var titleIndex = Number(titleCarousel.getAttribute('title-starting-index'));
+  var carouselBuilder = function carouselBuilder(titleArr, titleIndex) {
+    elementBuilder('p', 'left-arrow', titleCarousel, ['arrow', 'fas', 'fa-chevron-left']);
+    elementBuilder('p', 'title', titleCarousel);
+    elementBuilder('p', 'right-arrow', titleCarousel, ['arrow', 'fas', 'fa-chevron-right']);
+    var title = document.getElementById('title');
+    titleSetter(title, titleArr[titleIndex]);
+  };
 
-  titleSetter(titleArr[titleIndex]);
+  var carouselEvents = function carouselEvents(loops, titleIndex, titleArr) {
+    var title = document.getElementById('title');
+    var leftArrow = document.getElementById('left-arrow');
+    var rightArrow = document.getElementById('right-arrow');
 
-  var arrowClick = function arrowClick(direction) {
-    return new CustomEvent('arrowClick', {
-      bubbles: true,
-      detail: { arrowDirection: direction }
+    var arrowClick = function arrowClick(direction) {
+      return new CustomEvent('arrowClick', {
+        bubbles: true,
+        detail: { arrowDirection: direction }
+      });
+    };
+
+    leftArrow.addEventListener('click', function () {
+      if (titleIndex > 0) {
+        titleIndex--;
+        titleSetter(title, titleArr[titleIndex]);
+      } else {
+        titleIndex = titleArr.length - 1;
+        titleSetter(title, titleArr[titleIndex]);
+      }
+      leftArrow.dispatchEvent(arrowClick('left'));
+    });
+
+    rightArrow.addEventListener('click', function () {
+      if (titleIndex < titleArr.length - 1) {
+        titleIndex++;
+        titleSetter(title, titleArr[titleIndex]);
+      } else {
+        titleIndex = 0;
+        titleSetter(title, titleArr[titleIndex]);
+      }
+      rightArrow.dispatchEvent(arrowClick('right'));
     });
   };
 
-  leftArrow.addEventListener('click', function () {
-    if (titleIndex > 0) {
-      titleIndex--;
-      titleSetter(titleArr[titleIndex]);
-    }
-    leftArrow.dispatchEvent(arrowClick('left'));
-  });
+  titleCarousel.addEventListener('carouselInitialState', function (event) {
+    var _event$detail = event.detail,
+        titleArr = _event$detail.titleArr,
+        loops = _event$detail.loops;
 
-  rightArrow.addEventListener('click', function () {
-    if (titleIndex < titleArr.length - 1) {
-      titleIndex++;
-      titleSetter(titleArr[titleIndex]);
-    }
-    rightArrow.dispatchEvent(arrowClick('right'));
+    var titleIndex = event.detail.titleIndex;
+    carouselBuilder(titleArr, titleIndex);
+    carouselEvents(loops, titleIndex, titleArr);
   });
 };
 

@@ -106,11 +106,17 @@ let calendar = () => {
     const changeDirection = event.detail.changeDirection;
     if(changeDirection === 'left'){
       currentMonthIndex=currentMonthIndex-1;
-      // console.log('currentMonthIndex', currentMonthIndex);
+      if(currentMonthIndex === 0){
+        currentMonthIndex = 12
+        currentYearIndex = currentYearIndex-1;
+      }
       populateCalendarBody(currentYearIndex, currentMonthIndex);
     }else if(changeDirection === 'right'){
       currentMonthIndex=currentMonthIndex+1;
-      // console.log('currentMonthIndex', currentMonthIndex);
+      if(currentMonthIndex === 13){
+        currentMonthIndex = 1;
+        currentYearIndex = currentYearIndex + 1;
+      }
       populateCalendarBody(currentYearIndex, currentMonthIndex);
     }
     //if(changedirection === 'left'){
