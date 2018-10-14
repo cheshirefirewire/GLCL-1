@@ -77,9 +77,6 @@ var calendar = function calendar() {
       calendarHead.appendChild(day);
     }
   };
-  populateCalendarHead();
-
-  // let titleIndex = Number(titleCarousel.getAttribute('title-starting-index'));
 
   var calendarBody = document.getElementById('calendar-body');
   var populateCalendarBody = function populateCalendarBody(selectedYear, selectedMonth) {
@@ -105,6 +102,7 @@ var calendar = function calendar() {
           lmaIndex--;
         } else if (currentCalendarDayIndex >= firstDayOfMonth && currentDayOfMonthIndex <= currentDaysInMonth) {
           day.innerHTML = currentDayOfMonthIndex;
+          day.classList.add('standardDay');
           currentDayOfMonthIndex++;
         } else {
           day.innerHTML = lastDaysIndex;
@@ -118,34 +116,37 @@ var calendar = function calendar() {
       currentRows++;
     }
   };
-  populateCalendarBody(currentYear, currentMonth);
+
   var calendar = document.getElementById('calendar');
+  if (calendar) {
+    populateCalendarBody(currentYear, currentMonth);
+    populateCalendarHead();
+    addCalendarListeners();
+  }
   var currentMonthIndex = currentMonth.valueOf();
   var currentYearIndex = currentYear.valueOf();
 
-  calendar.addEventListener('monthChange', function (event) {
-    // change the current month and if neccessary, the current year
-    var changeDirection = event.detail.changeDirection;
-    if (changeDirection === 'left') {
-      currentMonthIndex = currentMonthIndex - 1;
-      if (currentMonthIndex === 0) {
-        currentMonthIndex = 12;
-        currentYearIndex = currentYearIndex - 1;
+  var addCalendarListeners = function addCalendarListeners() {
+    calendar.addEventListener('monthChange', function (event) {
+      // change the current month and if neccessary, the current year
+      var changeDirection = event.detail.changeDirection;
+      if (changeDirection === 'left') {
+        currentMonthIndex = currentMonthIndex - 1;
+        if (currentMonthIndex === 0) {
+          currentMonthIndex = 12;
+          currentYearIndex = currentYearIndex - 1;
+        }
+        populateCalendarBody(currentYearIndex, currentMonthIndex);
+      } else if (changeDirection === 'right') {
+        currentMonthIndex = currentMonthIndex + 1;
+        if (currentMonthIndex === 13) {
+          currentMonthIndex = 1;
+          currentYearIndex = currentYearIndex + 1;
+        }
+        populateCalendarBody(currentYearIndex, currentMonthIndex);
       }
-      populateCalendarBody(currentYearIndex, currentMonthIndex);
-    } else if (changeDirection === 'right') {
-      currentMonthIndex = currentMonthIndex + 1;
-      if (currentMonthIndex === 13) {
-        currentMonthIndex = 1;
-        currentYearIndex = currentYearIndex + 1;
-      }
-      populateCalendarBody(currentYearIndex, currentMonthIndex);
-    }
-    //if(changedirection === 'left'){
-    //  go back one month
-    //if change direction === 'right'
-    //  go forward one month
-  }, true);
+    }, true);
+  };
 };
 
 document.addEventListener('DOMContentLoaded', calendar, false);
@@ -221,15 +222,21 @@ var titleCarouselWrapper = function titleCarouselWrapper() {
     });
   };
 
-  titleCarousel.addEventListener('carouselInitialState', function (event) {
-    var _event$detail = event.detail,
-        titleArr = _event$detail.titleArr,
-        loops = _event$detail.loops;
+  var addTitleCarouselEvents = function addTitleCarouselEvents() {
+    titleCarousel.addEventListener('carouselInitialState', function (event) {
+      var _event$detail = event.detail,
+          titleArr = _event$detail.titleArr,
+          loops = _event$detail.loops;
 
-    var titleIndex = event.detail.titleIndex;
-    carouselBuilder(titleArr, titleIndex);
-    carouselEvents(loops, titleIndex, titleArr);
-  });
+      var titleIndex = event.detail.titleIndex;
+      carouselBuilder(titleArr, titleIndex);
+      carouselEvents(loops, titleIndex, titleArr);
+    });
+  };
+
+  if (titleCarousel) {
+    addTitleCarouselEvents();
+  }
 };
 
 document.addEventListener('DOMContentLoaded', titleCarouselWrapper, false);

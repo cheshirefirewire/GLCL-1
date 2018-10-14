@@ -58,12 +58,18 @@ const titleCarouselWrapper = () => {
     });
   }
 
-  titleCarousel.addEventListener('carouselInitialState', (event)=>{
-    const {titleArr, loops} = event.detail;
-    let titleIndex = event.detail.titleIndex;
-    carouselBuilder(titleArr, titleIndex);
-    carouselEvents(loops, titleIndex, titleArr);
-  });
+  const addTitleCarouselEvents = () => {
+    titleCarousel.addEventListener('carouselInitialState', (event)=>{
+      const {titleArr, loops} = event.detail;
+      let titleIndex = event.detail.titleIndex;
+      carouselBuilder(titleArr, titleIndex);
+      carouselEvents(loops, titleIndex, titleArr);
+    });
+  }
+
+  if(titleCarousel){
+    addTitleCarouselEvents();
+  }
 
 };
 

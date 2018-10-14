@@ -1,17 +1,25 @@
 @import '../main';
 
-#calendar-head,
-.calendar-row {
-  display: flex;
-  justify-content: space-around;
+.calendar {
+  #calendar-head,
+  .calendar-row {
+    display: flex;
+    justify-content: space-around;
 
-  p {
-    width: 100%;
-    text-align: center;
+    p {
+      width: 100%;
+      text-align: center;
+      color: white;
+    }
   }
-  //TODO: Create a class ".grayedOut", which makes text lightgray
-  //TODO: Add the lightgray color as a scss variable in the _variables.scss file and call it "fadedText"
-  .grayedOut{
-    color:$fadedText;
+
+  #calendar-body {
+    .grayedOut {
+      color: $fadedText;
+    }
+
+    .standardDay {
+      color: white;
+    }
   }
 }

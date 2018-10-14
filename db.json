@@ -1,25 +1,39 @@
 {
-  "User":{
+  "user": {
     "id": 1,
-  	"Name":"Jane",
-  	"Goal": 90,
-  	"practiceSessions":[
-  		{
-  			"date": "mm/dd/yyyy",
-  			"timePracticed": 90,
-  			"goalMet": true
-  		},
-  		{
-  			"date": "mm/dd/yyyy",
-  			"timePracticed": 60,
-  			"goalMet": false
-  		},
-  		{
-  			"date": "mm/dd/yyyy",
-  			"timePracticed": 35,
-  			"goalMet": false
-  		}
-  	]
+    "name": "Jane",
+    "goal": 90
   },
-  "galleryImages": ["image1", "image2"]
+  "practiceSessions": [
+    {
+      "date": "10/13/2018",
+      "timePracticed": 0,
+      "goalMet": false,
+      "id": 1
+    },
+    {
+      "date": "10/13/2018",
+      "timePracticed": 0,
+      "goalMet": false,
+      "id": 2
+    },
+    {
+      "date": "10/13/2018",
+      "timePracticed": 0,
+      "goalMet": false,
+      "id": 3
+    },
+    {
+      "date": "10/13/2018",
+      "timePracticed": 0,
+      "goalMet": false,
+      "id": 4
+    },
+    {
+      "date": "10/13/2018",
+      "timePracticed": 0,
+      "goalMet": false,
+      "id": 5
+    }
+  ]
 }

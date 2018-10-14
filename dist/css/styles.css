@@ -196,21 +196,25 @@
   font-family: 'Nunito', sans-serif;
 }
 
-#calendar-head,
-.calendar-row {
+.calendar #calendar-head,
+.calendar .calendar-row {
   display: flex;
   justify-content: space-around;
 }
 
-#calendar-head p,
-.calendar-row p {
+.calendar #calendar-head p,
+.calendar .calendar-row p {
   width: 100%;
   text-align: center;
+  color: white;
 }
 
-#calendar-head .grayedOut,
-.calendar-row .grayedOut {
-  color: lightgray;
+.calendar #calendar-body .grayedOut {
+  color: #949292;
+}
+
+.calendar #calendar-body .standardDay {
+  color: white;
 }
 * {
   font-family: 'Nunito', sans-serif;
@@ -226,7 +230,7 @@ li {
 .title-carousel {
   display: flex;
   width: 100%;
-  background-color: lightgray;
+  background-color: #6f7275;
   justify-content: space-around;
   color: white;
 }

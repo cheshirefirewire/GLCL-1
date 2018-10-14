@@ -53,9 +53,6 @@ let calendar = () => {
       calendarHead.appendChild(day);
     }
   }
-  populateCalendarHead();
-
-  // let titleIndex = Number(titleCarousel.getAttribute('title-starting-index'));
 
   const calendarBody = document.getElementById('calendar-body');
   const populateCalendarBody = (selectedYear, selectedMonth) => {
@@ -81,6 +78,7 @@ let calendar = () => {
           lmaIndex--;
         }else if(currentCalendarDayIndex>=firstDayOfMonth && currentDayOfMonthIndex <= currentDaysInMonth){
           day.innerHTML = currentDayOfMonthIndex;
+          day.classList.add('standardDay');
           currentDayOfMonthIndex++;
         }else{
           day.innerHTML = lastDaysIndex;
@@ -96,34 +94,37 @@ let calendar = () => {
       currentRows++;
     }
   }
-  populateCalendarBody(currentYear, currentMonth);
+
   const calendar = document.getElementById('calendar');
+  if(calendar){
+    populateCalendarBody(currentYear, currentMonth);
+    populateCalendarHead();
+    addCalendarListeners();
+  }
   let currentMonthIndex = currentMonth.valueOf();
   let currentYearIndex = currentYear.valueOf();
 
-  calendar.addEventListener('monthChange', function(event){
-    // change the current month and if neccessary, the current year
-    const changeDirection = event.detail.changeDirection;
-    if(changeDirection === 'left'){
-      currentMonthIndex=currentMonthIndex-1;
-      if(currentMonthIndex === 0){
-        currentMonthIndex = 12
-        currentYearIndex = currentYearIndex-1;
+  const addCalendarListeners = () => {
+    calendar.addEventListener('monthChange', function(event){
+      // change the current month and if neccessary, the current year
+      const changeDirection = event.detail.changeDirection;
+      if(changeDirection === 'left'){
+        currentMonthIndex=currentMonthIndex-1;
+        if(currentMonthIndex === 0){
+          currentMonthIndex = 12
+          currentYearIndex = currentYearIndex-1;
+        }
+        populateCalendarBody(currentYearIndex, currentMonthIndex);
+      }else if(changeDirection === 'right'){
+        currentMonthIndex=currentMonthIndex+1;
+        if(currentMonthIndex === 13){
+          currentMonthIndex = 1;
+          currentYearIndex = currentYearIndex + 1;
+        }
+        populateCalendarBody(currentYearIndex, currentMonthIndex);
       }
-      populateCalendarBody(currentYearIndex, currentMonthIndex);
-    }else if(changeDirection === 'right'){
-      currentMonthIndex=currentMonthIndex+1;
-      if(currentMonthIndex === 13){
-        currentMonthIndex = 1;
-        currentYearIndex = currentYearIndex + 1;
-      }
-      populateCalendarBody(currentYearIndex, currentMonthIndex);
-    }
-    //if(changedirection === 'left'){
-    //  go back one month
-    //if change direction === 'right'
-    //  go forward one month
-  }, true);
+    }, true);
+  }
 };
 
 document.addEventListener('DOMContentLoaded', calendar, false);
